@@ -1,0 +1,2137 @@
+Index: app/src/test/java/com/example/u5818947/mynotebook/ExampleUnitTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/test/java/com/example/u5818947/mynotebook/ExampleUnitTest.java	(revision )
++++ app/src/test/java/com/example/u5818947/mynotebook/ExampleUnitTest.java	(revision )
+@@ -0,0 +1,15 @@
++package com.example.u5818947.mynotebook;
++
++import org.junit.Test;
++
++import static org.junit.Assert.*;
++
++/**
++ * To work on unit tests, switch the Test Artifact in the Build Variants view.
++ */
++public class ExampleUnitTest {
++    @Test
++    public void addition_isCorrect() throws Exception {
++        assertEquals(4, 2 + 2);
++    }
++}
+\ No newline at end of file
+Index: app/src/main/res/values-v21/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values-v21/styles.xml	(revision )
++++ app/src/main/res/values-v21/styles.xml	(revision )
+@@ -0,0 +1,9 @@
++<resources>>
++
++    <style name="AppTheme.NoActionBar">
++        <item name="windowActionBar">false</item>
++        <item name="windowNoTitle">true</item>
++        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
++        <item name="android:statusBarColor">@android:color/transparent</item>
++    </style>
++</resources>
+Index: ../comp6442-assignment1/MyNotebook/.idea/compiler.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/.idea/compiler.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/.idea/compiler.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,22 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="CompilerConfiguration">
+-    <resourceExtensions />
+-    <wildcardResourcePatterns>
+-      <entry name="!?*.java" />
+-      <entry name="!?*.form" />
+-      <entry name="!?*.class" />
+-      <entry name="!?*.groovy" />
+-      <entry name="!?*.scala" />
+-      <entry name="!?*.flex" />
+-      <entry name="!?*.kt" />
+-      <entry name="!?*.clj" />
+-      <entry name="!?*.aj" />
+-    </wildcardResourcePatterns>
+-    <annotationProcessing>
+-      <profile default="true" name="Default" enabled="false">
+-        <processorPath useClasspath="true" />
+-      </profile>
+-    </annotationProcessing>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/MainActivity.java
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/MainActivity.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/MainActivity.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,94 +0,0 @@
+-package com.example.u5818947.mynotebook;
+-
+-import android.app.ActionBar;
+-import android.app.ListActivity;
+-import android.content.Intent;
+-import android.os.Bundle;
+-import android.support.design.widget.FloatingActionButton;
+-import android.support.design.widget.Snackbar;
+-import android.support.v7.app.AppCompatActivity;
+-import android.support.v7.widget.Toolbar;
+-import android.text.Layout;
+-import android.view.View;
+-import android.view.Menu;
+-import android.view.MenuItem;
+-import android.widget.AdapterView;
+-import android.widget.ArrayAdapter;
+-import android.widget.Button;
+-import android.widget.ListView;
+-import android.widget.RelativeLayout;
+-
+-import java.sql.SQLException;
+-import java.util.List;
+-
+-public class MainActivity extends ListActivity {
+-    private NoteDataSource datasource;
+-    private ListView mListView;
+-    //    EditText editText;
+-//    TextView textView;
+-    @Override
+-    public void onCreate(Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_main);
+-        datasource = new NoteDataSource(this);
+-        try {
+-            datasource.open();
+-        } catch (SQLException e) {
+-            e.printStackTrace();
+-        }
+-
+-        final List<Note> values = datasource.getAllNotes();
+-
+-        // use the SimpleCursorAdapter to show the
+-        // elements in a ListView
+-        final ArrayAdapter<Note> adapter = new ArrayAdapter<Note>(this,
+-                android.R.layout.simple_list_item_1, values);
+-        setListAdapter(adapter);
+-
+-
+-        mListView = this.getListView();
+-        // 添加点击
+-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+-            @Override
+-            public void onItemClick(AdapterView<?> parent, View v, int position,
+-                                    long id) {
+-                String value = values.get(position).getNote();
+-                long NoteId = values.get(position).getId();
+-                Intent edit = new Intent(MainActivity.this, EditActivity.class);
+-                edit.putExtra("note",value);
+-                edit.putExtra("id",NoteId);
+-                startActivity(edit);
+-            }
+-        });
+-    }
+-
+-    @Override
+-    protected void onResume() {
+-        try {
+-            datasource.open();
+-        } catch (SQLException e) {
+-            e.printStackTrace();
+-        }
+-        super.onResume();
+-    }
+-
+-    @Override
+-    protected void onPause() {
+-        datasource.close();
+-        super.onPause();
+-    }
+-
+-    public void lauchAddActivity(View view){
+-        Intent addActivity = new Intent(this, AddActivity.class);
+-
+-        startActivity(addActivity);
+-    }
+-
+-    public void lauchEditActivity(View view){
+-        Intent editActivity = new Intent(this, EditActivity.class);
+-        startActivity(editActivity);
+-    }
+-
+-
+-
+-}
+Index: app/src/main/res/values/dimens.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/dimens.xml	(revision )
++++ app/src/main/res/values/dimens.xml	(revision )
+@@ -0,0 +1,6 @@
++<resources>
++    <!-- Default screen margins, per the Android Design guidelines. -->
++    <dimen name="activity_horizontal_margin">16dp</dimen>
++    <dimen name="activity_vertical_margin">16dp</dimen>
++    <dimen name="fab_margin">16dp</dimen>
++</resources>
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/res/values/strings.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/res/values/strings.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/res/values/strings.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,4 +0,0 @@
+-<resources>
+-    <string name="app_name">My Notebook</string>
+-    <string name="action_settings">Settings</string>
+-</resources>
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/res/layout/activity_edit.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/res/layout/activity_edit.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/res/layout/activity_edit.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,79 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    android:paddingBottom="@dimen/activity_vertical_margin"
+-    android:paddingLeft="@dimen/activity_horizontal_margin"
+-    android:paddingRight="@dimen/activity_horizontal_margin"
+-    android:paddingTop="@dimen/activity_vertical_margin"
+-    tools:context="com.example.aprile.dbtest.EditActivity">
+-
+-    <TextView
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="Please enter your note:"
+-        android:textSize="12pt"
+-        android:id="@+id/note_edit_title"
+-        android:layout_alignParentTop="true"
+-        android:layout_alignParentLeft="true"
+-        android:layout_alignParentStart="true" />
+-
+-    <EditText
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:inputType="textMultiLine"
+-        android:ems="10"
+-        android:id="@+id/note_edit"
+-        android:textSize="11pt"
+-        android:layout_below="@+id/note_add_title"
+-        android:layout_centerHorizontal="true"
+-        android:layout_marginTop="46dp" />
+-
+-    <Button
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="save"
+-        android:id="@+id/button_edit_save"
+-        android:textSize="12pt"
+-        android:onClick="save"
+-        android:layout_above="@+id/note_edit_print_title"
+-        android:layout_toLeftOf="@+id/button_edit_delete"
+-        android:layout_toStartOf="@+id/button_edit_delete" />
+-
+-    <TextView
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="Your note content is below:"
+-        android:id="@+id/note_edit_print_title"
+-        android:textSize="9pt"
+-        android:layout_marginTop="87dp"
+-        android:layout_below="@+id/button_edit_delete"
+-        android:layout_alignParentLeft="true"
+-        android:layout_alignParentStart="true" />
+-
+-    <TextView
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="New Text"
+-        android:id="@+id/note_edit_print"
+-        android:textSize="11pt"
+-        android:layout_below="@+id/note_edit_print_title"
+-        android:layout_alignLeft="@+id/note_edit"
+-        android:layout_alignStart="@+id/note_edit"
+-        android:layout_marginTop="54dp" />
+-
+-    <Button
+-        style="?android:attr/buttonStyleSmall"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="delete"
+-        android:textSize="12pt"
+-        android:id="@+id/button_edit_delete"
+-        android:layout_below="@+id/note_edit"
+-        android:layout_alignParentRight="true"
+-        android:layout_alignParentEnd="true"
+-        android:layout_marginTop="50dp"
+-        android:onClick="delete"/>
+-
+-</RelativeLayout>
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/res/values-w820dp/dimens.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/res/values-w820dp/dimens.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/res/values-w820dp/dimens.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,6 +0,0 @@
+-<resources>
+-    <!-- Example customization of dimensions originally defined in res/values/dimens.xml
+-         (such as screen margins) for screens with more than 820dp of available width. This
+-         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
+-    <dimen name="activity_horizontal_margin">64dp</dimen>
+-</resources>
+Index: ../comp6442-assignment1/MyNotebook/.idea/modules.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/.idea/modules.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/.idea/modules.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,9 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectModuleManager">
+-    <modules>
+-      <module fileurl="file://$PROJECT_DIR$/MyNotebook.iml" filepath="$PROJECT_DIR$/MyNotebook.iml" />
+-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+-    </modules>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: ../comp6442-assignment1/MyNotebook/.gitignore
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/.gitignore	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/.gitignore	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,8 +0,0 @@
+-*.iml
+-.gradle
+-/local.properties
+-/.idea/workspace.xml
+-/.idea/libraries
+-.DS_Store
+-/build
+-/captures
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/NoteDataSource.java
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/NoteDataSource.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/NoteDataSource.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,85 +0,0 @@
+-package com.example.u5818947.mynotebook;
+-
+-import android.content.ContentValues;
+-import android.content.Context;
+-import android.database.Cursor;
+-import android.database.sqlite.SQLiteDatabase;
+-
+-import java.sql.SQLException;
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-/**
+- * Created by aprile on 2016/3/21.
+- */
+-public class NoteDataSource {
+-    // Database fields
+-    private SQLiteDatabase database;
+-    private MySQL db;
+-    private String[] allColumns = { MySQL.ID,
+-            MySQL.CONTENT };
+-
+-    public NoteDataSource(Context context) {
+-        db = new MySQL(context);
+-    }
+-
+-    public void open() throws SQLException {
+-        database = db.getWritableDatabase();
+-    }
+-
+-    public void close() {
+-        db.close();
+-    }
+-
+-    public Note createNote(String note) {
+-        ContentValues values = new ContentValues();
+-        values.put(MySQL.CONTENT, note);
+-
+-        long insertId = database.insert(MySQL.TABLE_NAME, null,
+-                values);
+-        Cursor cursor = database.query(MySQL.TABLE_NAME,
+-                allColumns, MySQL.ID + " = " + insertId, null,
+-                null, null, null);
+-        cursor.moveToFirst();
+-        Note newNote = cursorToNote(cursor);
+-        cursor.close();
+-        return newNote;
+-    }
+-
+-    public void deleteNote(Note note) {
+-        long id = note.getId();
+-        System.out.println("Note deleted with id: " + id);
+-        database.delete(MySQL.TABLE_NAME, MySQL.ID
+-                + " = " + id, null);
+-    }
+-
+-    public void deleteNote(long id){
+-        System.out.println("Note deleted with id: " + id);
+-        database.delete(MySQL.TABLE_NAME, MySQL.ID
+-                + " = " + id, null);
+-    }
+-
+-    public List<Note> getAllNotes() {
+-        List<Note> notes = new ArrayList<Note>();
+-
+-        Cursor cursor = database.query(MySQL.TABLE_NAME,
+-                allColumns, null, null, null, null, null);
+-
+-        cursor.moveToFirst();
+-        while (!cursor.isAfterLast()) {
+-            Note note = cursorToNote(cursor);
+-            notes.add(note);
+-            cursor.moveToNext();
+-        }
+-        // make sure to close the cursor
+-        cursor.close();
+-        return notes;
+-    }
+-
+-    private Note cursorToNote(Cursor cursor) {
+-        Note note = new Note();
+-        note.setId(cursor.getLong(0));
+-        note.setNote(cursor.getString(1));
+-        return note;
+-    }
+-}
+Index: app/src/main/java/com/example/u5818947/mynotebook/EditActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/u5818947/mynotebook/EditActivity.java	(revision )
++++ app/src/main/java/com/example/u5818947/mynotebook/EditActivity.java	(revision )
+@@ -0,0 +1,67 @@
++package com.example.u5818947.mynotebook;
++
++import android.content.Context;
++import android.content.Intent;
++import android.os.Bundle;
++import android.support.v7.app.AppCompatActivity;
++import android.view.View;
++import android.widget.EditText;
++import android.widget.TextView;
++import android.widget.Toast;
++
++import java.io.BufferedReader;
++import java.io.File;
++import java.io.FileInputStream;
++import java.io.FileOutputStream;
++import java.io.InputStreamReader;
++import java.sql.SQLException;
++
++/**
++ * Created by aprile on 2016/3/14.
++ */
++public class EditActivity extends AppCompatActivity {
++    EditText editText;
++    TextView textView;
++    public NoteDataSource data;
++    long id;
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_edit);
++
++        // open the database
++        data = new NoteDataSource(this);
++        try {
++            data.open();
++        } catch (SQLException e) {
++            e.printStackTrace();
++        }
++
++        textView = (TextView) findViewById(R.id.note_edit_print);
++        editText = (EditText) findViewById(R.id.note_edit);
++        Intent intent = getIntent();
++        String note = intent.getStringExtra("note");
++        editText.setText(note);
++        id = intent.getLongExtra("id",0);
++    }
++
++    public void save(View view){
++        String newNote = editText.getText().toString();
++        data.deleteNote(id);
++        data.createNote(newNote);
++        textView.setText(newNote);
++
++        //add "change saved" toast
++        Toast.makeText(this, "change saved", Toast.LENGTH_SHORT).show();
++    }
++
++    public void delete(View view){
++        data.deleteNote(id);
++
++        //add "note deleted" toast
++        Toast.makeText(this,"note deleted",Toast.LENGTH_SHORT).show();
++
++        Intent main = new Intent(this, MainActivity.class);
++        startActivity(main);
++    }
++}
+Index: app/src/main/java/com/example/u5818947/mynotebook/Note.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/u5818947/mynotebook/Note.java	(revision )
++++ app/src/main/java/com/example/u5818947/mynotebook/Note.java	(revision )
+@@ -0,0 +1,30 @@
++package com.example.u5818947.mynotebook;
++
++/**
++ * Created by aprile on 2016/3/21.
++ */
++public class Note {
++    private long id;
++    private String note;
++
++    public long getId() {
++        return id;
++    }
++
++    public void setId(long id) {
++        this.id = id;
++    }
++
++    public String getNote() {
++        return note;
++    }
++    public void setNote(String note) {
++        this.note = note;
++    }
++
++    // Will be used by the ArrayAdapter in the ListView
++    @Override
++    public String toString() {
++        return note;
++    }
++}
+Index: ../comp6442-assignment1/MyNotebook/.idea/misc.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/.idea/misc.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/.idea/misc.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,35 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+-    <OptionsSetting value="true" id="Add" />
+-    <OptionsSetting value="true" id="Remove" />
+-    <OptionsSetting value="true" id="Checkout" />
+-    <OptionsSetting value="true" id="Update" />
+-    <OptionsSetting value="true" id="Status" />
+-    <OptionsSetting value="true" id="Edit" />
+-    <ConfirmationsSetting value="0" id="Add" />
+-    <ConfirmationsSetting value="0" id="Remove" />
+-  </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
+-    <output url="file://$PROJECT_DIR$/build/classes" />
+-  </component>
+-  <component name="ProjectType">
+-    <option name="id" value="Android" />
+-  </component>
+-  <component name="masterDetails">
+-    <states>
+-      <state key="ProjectJDKs.UI">
+-        <settings>
+-          <last-edited>1.7</last-edited>
+-          <splitter-proportions>
+-            <option name="proportions">
+-              <list>
+-                <option value="0.2" />
+-              </list>
+-            </option>
+-          </splitter-proportions>
+-        </settings>
+-      </state>
+-    </states>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/AddActivity.java
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/AddActivity.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/AddActivity.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,54 +0,0 @@
+-package com.example.u5818947.mynotebook;
+-
+-import android.content.Context;
+-import android.content.Intent;
+-import android.os.Bundle;
+-import android.support.v7.app.AppCompatActivity;
+-import android.view.View;
+-import android.widget.Button;
+-import android.widget.EditText;
+-import android.widget.RelativeLayout;
+-import android.widget.TextView;
+-
+-import java.io.BufferedReader;
+-import java.io.File;
+-import java.io.FileInputStream;
+-import java.io.FileOutputStream;
+-import java.io.InputStreamReader;
+-import java.sql.SQLException;
+-
+-/**
+- * Created by aprile on 2016/3/15.
+- */
+-public class AddActivity extends AppCompatActivity {
+-    public NoteDataSource data;
+-    EditText editText;
+-    TextView textView;
+-    int itemNum;
+-
+-    @Override
+-    protected void onCreate(Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_add);
+-
+-        //this is a test for database store.
+-        data = new NoteDataSource(this);
+-        try {
+-            data.open();
+-        } catch (SQLException e) {
+-            e.printStackTrace();
+-        }
+-
+-        editText = (EditText) findViewById(R.id.note_add);
+-        textView = (TextView) findViewById(R.id.note_add_print);
+-    }
+-
+-    public void save(View view){
+-
+-        String str = editText.getText().toString();
+-        textView.setText(str);
+-        data.createNote(str);
+-        Intent main = new Intent(this, MainActivity.class);
+-        startActivity(main);
+-    }
+-}
+Index: ../comp6442-assignment1/MyNotebook/.idea/copyright/profiles_settings.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/.idea/copyright/profiles_settings.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/.idea/copyright/profiles_settings.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,3 +0,0 @@
+-<component name="CopyrightManager">
+-  <settings default="" />
+-</component>
+\ No newline at end of file
+Index: ../comp6442-assignment1/MyNotebook/build.gradle
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/build.gradle	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/build.gradle	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,23 +0,0 @@
+-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+-
+-buildscript {
+-    repositories {
+-        jcenter()
+-    }
+-    dependencies {
+-        classpath 'com.android.tools.build:gradle:1.5.0'
+-
+-        // NOTE: Do not place your application dependencies here; they belong
+-        // in the individual module build.gradle files
+-    }
+-}
+-
+-allprojects {
+-    repositories {
+-        jcenter()
+-    }
+-}
+-
+-task clean(type: Delete) {
+-    delete rootProject.buildDir
+-}
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/res/menu/menu_main.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/res/menu/menu_main.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/res/menu/menu_main.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,10 +0,0 @@
+-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    tools:context="com.example.u5818947.mynotebook.MainActivity">
+-    <item
+-        android:id="@+id/action_settings"
+-        android:orderInCategory="100"
+-        android:title="@string/action_settings"
+-        app:showAsAction="never" />
+-</menu>
+Index: app/src/main/res/menu/menu_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/menu/menu_main.xml	(revision )
++++ app/src/main/res/menu/menu_main.xml	(revision )
+@@ -0,0 +1,10 @@
++<menu xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    tools:context="com.example.u5818947.mynotebook.MainActivity">
++    <item
++        android:id="@+id/action_settings"
++        android:orderInCategory="100"
++        android:title="@string/action_settings"
++        app:showAsAction="never" />
++</menu>
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/res/values-v21/styles.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/res/values-v21/styles.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/res/values-v21/styles.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,9 +0,0 @@
+-<resources>>
+-
+-    <style name="AppTheme.NoActionBar">
+-        <item name="windowActionBar">false</item>
+-        <item name="windowNoTitle">true</item>
+-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+-        <item name="android:statusBarColor">@android:color/transparent</item>
+-    </style>
+-</resources>
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/res/values/styles.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/res/values/styles.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/res/values/styles.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,20 +0,0 @@
+-<resources>
+-
+-    <!-- Base application theme. -->
+-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+-        <!-- Customize your theme here. -->
+-        <item name="colorPrimary">@color/colorPrimary</item>
+-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+-        <item name="colorAccent">@color/colorAccent</item>
+-    </style>
+-
+-    <style name="AppTheme.NoActionBar">
+-        <item name="windowActionBar">false</item>
+-        <item name="windowNoTitle">true</item>
+-    </style>
+-
+-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+-
+-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+-
+-</resources>
+Index: ../comp6442-assignment1/MyNotebook/app/.gitignore
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/.gitignore	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/.gitignore	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,1 +0,0 @@
+-/build
+Index: app/src/main/java/com/example/u5818947/mynotebook/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/u5818947/mynotebook/MainActivity.java	(revision )
++++ app/src/main/java/com/example/u5818947/mynotebook/MainActivity.java	(revision )
+@@ -0,0 +1,159 @@
++package com.example.u5818947.mynotebook;
++
++import android.app.ActionBar;
++import android.app.ListActivity;
++import android.content.Intent;
++import android.os.Bundle;
++import android.support.design.widget.FloatingActionButton;
++import android.support.design.widget.Snackbar;
++import android.support.v7.app.AppCompatActivity;
++import android.support.v7.widget.Toolbar;
++import android.text.Layout;
++import android.view.ContextMenu;
++import android.view.View;
++import android.view.Menu;
++import android.view.MenuItem;
++import android.widget.AdapterView;
++import android.widget.ArrayAdapter;
++import android.widget.Button;
++import android.widget.ListView;
++import android.widget.RelativeLayout;
++import android.widget.Toast;
++
++import java.sql.SQLException;
++import java.util.List;
++
++import static android.app.PendingIntent.getActivity;
++
++public class MainActivity extends ListActivity {
++    private NoteDataSource datasource;
++    private ListView mListView;
++
++    ArrayAdapter<Note> adapter;
++    //    EditText editText;
++//    TextView textView;
++    @Override
++    public void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_main);
++        datasource = new NoteDataSource(this);
++        try {
++            datasource.open();
++        } catch (SQLException e) {
++            e.printStackTrace();
++        }
++
++        final List<Note> values = datasource.getAllNotes();
++
++        mListView = this.getListView();
++        registerForContextMenu(mListView);
++
++        // use the SimpleCursorAdapter to show the
++        // elements in a ListView
++//        final ArrayAdapter<Note> adapter = new ArrayAdapter<Note>(this,
++//                android.R.layout.simple_list_item_1, values);
++        adapter = new ArrayAdapter<Note>(this, android.R.layout.simple_list_item_1, values);
++//        runOnUiThread(new Runnable() {
++//            public void run() {
++//                adapter.notifyDataSetChanged();
++//            }
++//        });
++        setListAdapter(adapter);
++
++
++
++        // 添加点击
++        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
++            @Override
++            public void onItemClick(AdapterView<?> parent, View v, int position,
++                                    long id) {
++                String value = values.get(position).getNote();
++                long NoteId = values.get(position).getId();
++                Intent edit = new Intent(MainActivity.this, EditActivity.class);
++                edit.putExtra("note",value);
++                edit.putExtra("id",NoteId);
++                startActivity(edit);
++            }
++        });
++    }
++
++    @Override
++    protected void onResume() {
++        try {
++            datasource.open();
++        } catch (SQLException e) {
++            e.printStackTrace();
++        }
++        super.onResume();
++    }
++
++    @Override
++    protected void onPause() {
++        datasource.close();
++        super.onPause();
++    }
++
++    public void lauchAddActivity(View view){
++        Intent addActivity = new Intent(this, AddActivity.class);
++
++        startActivity(addActivity);
++    }
++
++    public void lauchEditActivity(View view){
++        Intent editActivity = new Intent(this, EditActivity.class);
++        startActivity(editActivity);
++    }
++
++    @Override
++    public void onCreateContextMenu(ContextMenu menu, View v,
++                                    ContextMenu.ContextMenuInfo menuInfo) {
++        super.onCreateContextMenu(menu, v, menuInfo);
++        /**
++         * 若定义了多个上下文菜单资源，通过检查传入onCreateContextMenu(...)方法的View视图ID，就可以自由决定
++         * 使用那个资源来生成上下文菜单。
++         */
++
++        getMenuInflater().inflate(R.menu.list_item_context, menu);
++    }
++
++    @Override
++    public boolean onContextItemSelected(MenuItem item) {
++        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
++        //v1
++        final List<Note> values = datasource.getAllNotes();
++        Note note = values.get(info.position);
++        switch (item.getItemId()) {
++            case R.id.menu_note_delete:{
++                delete(note);
++                values.remove(note);
++                this.adapter.notifyDataSetChanged();
++                startActivity(new Intent(this,MainActivity.class));
++                return true;
++            }
++
++            default:
++                return super.onContextItemSelected(item);
++        }
++        //v2
++
++//        switch (item.getItemId()) {
++//            case R.id.menu_note_delete:
++//                delete(info.position);
++//                return true;
++//            default:
++//                return super.onContextItemSelected(item);
++//        }
++    }
++
++    //v1
++    public void delete(Note note) {
++        datasource.deleteNote(note);
++
++        //add "note deleted" toast
++        Toast.makeText(this, "note deleted", Toast.LENGTH_SHORT).show();
++    }
++
++
++
++
++}
+Index: ../comp6442-assignment1/MyNotebook/app/proguard-rules.pro
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/proguard-rules.pro	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/proguard-rules.pro	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,17 +0,0 @@
+-# Add project specific ProGuard rules here.
+-# By default, the flags in this file are appended to flags specified
+-# in /students/u5818947/Android/Sdk/tools/proguard/proguard-android.txt
+-# You can edit the include path and order by changing the proguardFiles
+-# directive in build.gradle.
+-#
+-# For more details, see
+-#   http://developer.android.com/guide/developing/tools/proguard.html
+-
+-# Add any project specific keep options here:
+-
+-# If your project uses WebView with JS, uncomment the following
+-# and specify the fully qualified class name to the JavaScript interface
+-# class:
+-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+-#   public *;
+-#}
+Index: ../comp6442-assignment1/MyNotebook/app/src/androidTest/java/com/example/u5818947/mynotebook/ApplicationTest.java
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/androidTest/java/com/example/u5818947/mynotebook/ApplicationTest.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/androidTest/java/com/example/u5818947/mynotebook/ApplicationTest.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,13 +0,0 @@
+-package com.example.u5818947.mynotebook;
+-
+-import android.app.Application;
+-import android.test.ApplicationTestCase;
+-
+-/**
+- * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
+- */
+-public class ApplicationTest extends ApplicationTestCase<Application> {
+-    public ApplicationTest() {
+-        super(Application.class);
+-    }
+-}
+\ No newline at end of file
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/EditActivity.java
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/EditActivity.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/EditActivity.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,59 +0,0 @@
+-package com.example.u5818947.mynotebook;
+-
+-import android.content.Context;
+-import android.content.Intent;
+-import android.os.Bundle;
+-import android.support.v7.app.AppCompatActivity;
+-import android.view.View;
+-import android.widget.EditText;
+-import android.widget.TextView;
+-
+-import java.io.BufferedReader;
+-import java.io.File;
+-import java.io.FileInputStream;
+-import java.io.FileOutputStream;
+-import java.io.InputStreamReader;
+-import java.sql.SQLException;
+-
+-/**
+- * Created by aprile on 2016/3/14.
+- */
+-public class EditActivity extends AppCompatActivity {
+-    EditText editText;
+-    TextView textView;
+-    public NoteDataSource data;
+-    long id;
+-    @Override
+-    protected void onCreate(Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_edit);
+-
+-        // open the database
+-        data = new NoteDataSource(this);
+-        try {
+-            data.open();
+-        } catch (SQLException e) {
+-            e.printStackTrace();
+-        }
+-
+-        textView = (TextView) findViewById(R.id.note_edit_print);
+-        editText = (EditText) findViewById(R.id.note_edit);
+-        Intent intent = getIntent();
+-        String note = intent.getStringExtra("note");
+-        editText.setText(note);
+-        id = intent.getLongExtra("id",0);
+-    }
+-
+-    public void save(View view){
+-        String newNote = editText.getText().toString();
+-        data.deleteNote(id);
+-        data.createNote(newNote);
+-        textView.setText(newNote);
+-    }
+-
+-    public void delete(View view){
+-        data.deleteNote(id);
+-        Intent main = new Intent(this, MainActivity.class);
+-        startActivity(main);
+-    }
+-}
+Index: ../comp6442-assignment1/MyNotebook/app/src/test/java/com/example/u5818947/mynotebook/ExampleUnitTest.java
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/test/java/com/example/u5818947/mynotebook/ExampleUnitTest.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/test/java/com/example/u5818947/mynotebook/ExampleUnitTest.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,15 +0,0 @@
+-package com.example.u5818947.mynotebook;
+-
+-import org.junit.Test;
+-
+-import static org.junit.Assert.*;
+-
+-/**
+- * To work on unit tests, switch the Test Artifact in the Build Variants view.
+- */
+-public class ExampleUnitTest {
+-    @Test
+-    public void addition_isCorrect() throws Exception {
+-        assertEquals(4, 2 + 2);
+-    }
+-}
+\ No newline at end of file
+Index: app/proguard-rules.pro
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/proguard-rules.pro	(revision )
++++ app/proguard-rules.pro	(revision )
+@@ -0,0 +1,17 @@
++# Add project specific ProGuard rules here.
++# By default, the flags in this file are appended to flags specified
++# in /students/u5818947/Android/Sdk/tools/proguard/proguard-android.txt
++# You can edit the include path and order by changing the proguardFiles
++# directive in build.gradle.
++#
++# For more details, see
++#   http://developer.android.com/guide/developing/tools/proguard.html
++
++# Add any project specific keep options here:
++
++# If your project uses WebView with JS, uncomment the following
++# and specify the fully qualified class name to the JavaScript interface
++# class:
++#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
++#   public *;
++#}
+Index: app/src/main/java/com/example/u5818947/mynotebook/NoteDataSource.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/u5818947/mynotebook/NoteDataSource.java	(revision )
++++ app/src/main/java/com/example/u5818947/mynotebook/NoteDataSource.java	(revision )
+@@ -0,0 +1,85 @@
++package com.example.u5818947.mynotebook;
++
++import android.content.ContentValues;
++import android.content.Context;
++import android.database.Cursor;
++import android.database.sqlite.SQLiteDatabase;
++
++import java.sql.SQLException;
++import java.util.ArrayList;
++import java.util.List;
++
++/**
++ * Created by aprile on 2016/3/21.
++ */
++public class NoteDataSource {
++    // Database fields
++    private SQLiteDatabase database;
++    private MySQL db;
++    private String[] allColumns = { MySQL.ID,
++            MySQL.CONTENT };
++
++    public NoteDataSource(Context context) {
++        db = new MySQL(context);
++    }
++
++    public void open() throws SQLException {
++        database = db.getWritableDatabase();
++    }
++
++    public void close() {
++        db.close();
++    }
++
++    public Note createNote(String note) {
++        ContentValues values = new ContentValues();
++        values.put(MySQL.CONTENT, note);
++
++        long insertId = database.insert(MySQL.TABLE_NAME, null,
++                values);
++        Cursor cursor = database.query(MySQL.TABLE_NAME,
++                allColumns, MySQL.ID + " = " + insertId, null,
++                null, null, null);
++        cursor.moveToFirst();
++        Note newNote = cursorToNote(cursor);
++        cursor.close();
++        return newNote;
++    }
++
++    public void deleteNote(Note note) {
++        long id = note.getId();
++        System.out.println("Note deleted with id: " + id);
++        database.delete(MySQL.TABLE_NAME, MySQL.ID
++                + " = " + id, null);
++    }
++
++    public void deleteNote(long id){
++        System.out.println("Note deleted with id: " + id);
++        database.delete(MySQL.TABLE_NAME, MySQL.ID
++                + " = " + id, null);
++    }
++
++    public List<Note> getAllNotes() {
++        List<Note> notes = new ArrayList<Note>();
++
++        Cursor cursor = database.query(MySQL.TABLE_NAME,
++                allColumns, null, null, null, null, null);
++
++        cursor.moveToFirst();
++        while (!cursor.isAfterLast()) {
++            Note note = cursorToNote(cursor);
++            notes.add(note);
++            cursor.moveToNext();
++        }
++        // make sure to close the cursor
++        cursor.close();
++        return notes;
++    }
++
++    private Note cursorToNote(Cursor cursor) {
++        Note note = new Note();
++        note.setId(cursor.getLong(0));
++        note.setNote(cursor.getString(1));
++        return note;
++    }
++}
+Index: ../comp6442-assignment1/MyNotebook/.idea/gradle.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/.idea/gradle.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/.idea/gradle.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,19 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="GradleSettings">
+-    <option name="linkedExternalProjectsSettings">
+-      <GradleProjectSettings>
+-        <option name="distributionType" value="LOCAL" />
+-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+-        <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.8" />
+-        <option name="gradleJvm" value="1.7" />
+-        <option name="modules">
+-          <set>
+-            <option value="$PROJECT_DIR$" />
+-            <option value="$PROJECT_DIR$/app" />
+-          </set>
+-        </option>
+-      </GradleProjectSettings>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_edit.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_edit.xml	(revision )
++++ app/src/main/res/layout/activity_edit.xml	(revision )
+@@ -0,0 +1,79 @@
++<?xml version="1.0" encoding="utf-8"?>
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:paddingBottom="@dimen/activity_vertical_margin"
++    android:paddingLeft="@dimen/activity_horizontal_margin"
++    android:paddingRight="@dimen/activity_horizontal_margin"
++    android:paddingTop="@dimen/activity_vertical_margin"
++    tools:context="com.example.aprile.dbtest.EditActivity">
++
++    <TextView
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Please enter your note:"
++        android:textSize="12pt"
++        android:id="@+id/note_edit_title"
++        android:layout_alignParentTop="true"
++        android:layout_alignParentLeft="true"
++        android:layout_alignParentStart="true" />
++
++    <EditText
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:inputType="textMultiLine"
++        android:ems="10"
++        android:id="@+id/note_edit"
++        android:textSize="11pt"
++        android:layout_below="@+id/note_add_title"
++        android:layout_centerHorizontal="true"
++        android:layout_marginTop="46dp" />
++
++    <Button
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="save"
++        android:id="@+id/button_edit_save"
++        android:textSize="12pt"
++        android:onClick="save"
++        android:layout_above="@+id/note_edit_print_title"
++        android:layout_toLeftOf="@+id/button_edit_delete"
++        android:layout_toStartOf="@+id/button_edit_delete" />
++
++    <TextView
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Your note content is below:"
++        android:id="@+id/note_edit_print_title"
++        android:textSize="9pt"
++        android:layout_marginTop="87dp"
++        android:layout_below="@+id/button_edit_delete"
++        android:layout_alignParentLeft="true"
++        android:layout_alignParentStart="true" />
++
++    <TextView
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="New Text"
++        android:id="@+id/note_edit_print"
++        android:textSize="11pt"
++        android:layout_below="@+id/note_edit_print_title"
++        android:layout_alignLeft="@+id/note_edit"
++        android:layout_alignStart="@+id/note_edit"
++        android:layout_marginTop="54dp" />
++
++    <Button
++        style="?android:attr/buttonStyleSmall"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="DELETE"
++        android:textSize="12pt"
++        android:id="@+id/button_edit_delete"
++        android:layout_below="@+id/note_edit"
++        android:layout_alignParentRight="true"
++        android:layout_alignParentEnd="true"
++        android:layout_marginTop="50dp"
++        android:onClick="delete"/>
++
++</RelativeLayout>
+Index: .idea/runConfigurations.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/runConfigurations.xml	(revision )
++++ .idea/runConfigurations.xml	(revision )
+@@ -0,0 +1,12 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RunConfigurationProducerService">
++    <option name="ignoredProducers">
++      <set>
++        <option value="org.jetbrains.plugins.gradle.execution.test.runner.AllInPackageGradleConfigurationProducer" />
++        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestClassGradleConfigurationProducer" />
++        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestMethodGradleConfigurationProducer" />
++      </set>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_add.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_add.xml	(revision )
++++ app/src/main/res/layout/activity_add.xml	(revision )
+@@ -0,0 +1,66 @@
++<?xml version="1.0" encoding="utf-8"?>
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:paddingBottom="@dimen/activity_vertical_margin"
++    android:paddingLeft="@dimen/activity_horizontal_margin"
++    android:paddingRight="@dimen/activity_horizontal_margin"
++    android:paddingTop="@dimen/activity_vertical_margin"
++    tools:context="com.example.aprile.dbtest.AddActivity">
++
++    <TextView
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Please enter your note:"
++        android:textSize="12pt"
++        android:id="@+id/note_add_title"
++        android:layout_alignParentTop="true"
++        android:layout_centerHorizontal="true" />
++
++    <EditText
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:inputType="textMultiLine"
++        android:ems="10"
++        android:id="@+id/note_add"
++        android:textSize="11pt"
++        android:layout_below="@+id/note_add_title"
++        android:layout_centerHorizontal="true"
++        android:layout_marginTop="46dp"
++        android:allowUndo="false" />
++
++    <Button
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="save"
++        android:id="@+id/button_edit_save"
++        android:textSize="12pt"
++        android:layout_marginTop="59dp"
++        android:layout_below="@+id/note_add"
++        android:layout_centerHorizontal="true"
++        android:onClick="save"/>
++
++    <TextView
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Your note content is below:"
++        android:id="@+id/note_add_print_title"
++        android:textSize="9pt"
++        android:layout_below="@+id/button_edit_save"
++        android:layout_alignParentLeft="true"
++        android:layout_alignParentStart="true"
++        android:layout_marginTop="44dp" />
++
++    <TextView
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="New Text"
++        android:id="@+id/note_add_print"
++        android:textSize="11pt"
++        android:layout_below="@+id/note_add_print_title"
++        android:layout_alignLeft="@+id/note_add"
++        android:layout_alignStart="@+id/note_add"
++        android:layout_marginTop="55dp" />
++
++</RelativeLayout>
+Index: app/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/.gitignore	(revision )
++++ app/.gitignore	(revision )
+@@ -0,0 +1,1 @@
++/build
+Index: app/src/main/res/menu/list_item_context.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/menu/list_item_context.xml	(revision )
++++ app/src/main/res/menu/list_item_context.xml	(revision )
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8"?>
++<menu xmlns:android="http://schemas.android.com/apk/res/android">
++    <item
++        android:id="@+id/menu_note_delete"
++        android:icon="@android:drawable/ic_delete"
++        android:title="delete"/>
++
++</menu>
+\ No newline at end of file
+Index: ../comp6442-assignment1/MyNotebook/.idea/runConfigurations.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/.idea/runConfigurations.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/.idea/runConfigurations.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,12 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="RunConfigurationProducerService">
+-    <option name="ignoredProducers">
+-      <set>
+-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.AllInPackageGradleConfigurationProducer" />
+-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestClassGradleConfigurationProducer" />
+-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestMethodGradleConfigurationProducer" />
+-      </set>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: ../comp6442-assignment1/MyNotebook/gradle/wrapper/gradle-wrapper.properties
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/gradle/wrapper/gradle-wrapper.properties	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/gradle/wrapper/gradle-wrapper.properties	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,6 +0,0 @@
+-#Wed Oct 21 11:34:03 PDT 2015
+-distributionBase=GRADLE_USER_HOME
+-distributionPath=wrapper/dists
+-zipStoreBase=GRADLE_USER_HOME
+-zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-2.8-all.zip
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/Note.java
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/Note.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/Note.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,30 +0,0 @@
+-package com.example.u5818947.mynotebook;
+-
+-/**
+- * Created by aprile on 2016/3/21.
+- */
+-public class Note {
+-    private long id;
+-    private String note;
+-
+-    public long getId() {
+-        return id;
+-    }
+-
+-    public void setId(long id) {
+-        this.id = id;
+-    }
+-
+-    public String getNote() {
+-        return note;
+-    }
+-    public void setNote(String note) {
+-        this.note = note;
+-    }
+-
+-    // Will be used by the ArrayAdapter in the ListView
+-    @Override
+-    public String toString() {
+-        return note;
+-    }
+-}
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision )
++++ app/src/main/res/layout/activity_main.xml	(revision )
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:orientation="vertical" >
++
++    <Button
++        android:id="@+id/add"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Add New"
++        android:onClick="lauchAddActivity"
++        android:layout_gravity="center_horizontal" />
++
++
++
++
++
++    <ListView
++        android:id="@android:id/list"
++        android:focusable="false"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content" />
++
++</LinearLayout>
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision )
++++ app/build.gradle	(revision )
+@@ -0,0 +1,27 @@
++apply plugin: 'com.android.application'
++
++android {
++    compileSdkVersion 23
++    buildToolsVersion "23.0.2"
++
++    defaultConfig {
++        applicationId "com.example.u5818947.mynotebook"
++        minSdkVersion 15
++        targetSdkVersion 23
++        versionCode 1
++        versionName "1.0"
++    }
++    buildTypes {
++        release {
++            minifyEnabled false
++            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
++        }
++    }
++}
++
++dependencies {
++    compile fileTree(dir: 'libs', include: ['*.jar'])
++    testCompile 'junit:junit:4.12'
++    compile 'com.android.support:appcompat-v7:23.2.0'
++    compile 'com.android.support:design:23.2.0'
++}
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/res/values/dimens.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/res/values/dimens.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/res/values/dimens.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,6 +0,0 @@
+-<resources>
+-    <!-- Default screen margins, per the Android Design guidelines. -->
+-    <dimen name="activity_horizontal_margin">16dp</dimen>
+-    <dimen name="activity_vertical_margin">16dp</dimen>
+-    <dimen name="fab_margin">16dp</dimen>
+-</resources>
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/res/values/colors.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/res/values/colors.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/res/values/colors.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<resources>
+-    <color name="colorPrimary">#3F51B5</color>
+-    <color name="colorPrimaryDark">#303F9F</color>
+-    <color name="colorAccent">#FF4081</color>
+-</resources>
+Index: ../comp6442-assignment1/MyNotebook/settings.gradle
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/settings.gradle	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/settings.gradle	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,1 +0,0 @@
+-include ':app'
+Index: app/src/main/java/com/example/u5818947/mynotebook/AddActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/u5818947/mynotebook/AddActivity.java	(revision )
++++ app/src/main/java/com/example/u5818947/mynotebook/AddActivity.java	(revision )
+@@ -0,0 +1,62 @@
++package com.example.u5818947.mynotebook;
++
++import android.content.Context;
++import android.content.Intent;
++import android.os.Bundle;
++import android.support.v7.app.AppCompatActivity;
++import android.view.View;
++import android.widget.Button;
++import android.widget.EditText;
++import android.widget.RelativeLayout;
++import android.widget.TextView;
++import android.widget.Toast;
++
++import java.io.BufferedReader;
++import java.io.File;
++import java.io.FileInputStream;
++import java.io.FileOutputStream;
++import java.io.InputStreamReader;
++import java.sql.SQLException;
++
++/**
++ * Created by aprile on 2016/3/15.
++ */
++public class AddActivity extends AppCompatActivity {
++    public NoteDataSource data;
++    EditText editText;
++    TextView textView;
++    int itemNum;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_add);
++
++        //this is a test for database store.
++        data = new NoteDataSource(this);
++        try {
++            data.open();
++        } catch (SQLException e) {
++            e.printStackTrace();
++        }
++
++        editText = (EditText) findViewById(R.id.note_add);
++        textView = (TextView) findViewById(R.id.note_add_print);
++
++        //尝试用后退键自动保存，需要实时保存数据,用editText 的 getTextChangeListener 方法
++
++    }
++
++    public void save(View view){
++
++        String str = editText.getText().toString();
++        textView.setText(str);
++        data.createNote(str);
++
++        //add "add" toast
++        Toast.makeText(this,"note added",Toast.LENGTH_SHORT).show();
++
++        Intent main = new Intent(this, MainActivity.class);
++        startActivity(main);
++    }
++}
+Index: app/src/main/res/values/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/styles.xml	(revision )
++++ app/src/main/res/values/styles.xml	(revision )
+@@ -0,0 +1,20 @@
++<resources>
++
++    <!-- Base application theme. -->
++    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
++        <!-- Customize your theme here. -->
++        <item name="colorPrimary">@color/colorPrimary</item>
++        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
++        <item name="colorAccent">@color/colorAccent</item>
++    </style>
++
++    <style name="AppTheme.NoActionBar">
++        <item name="windowActionBar">false</item>
++        <item name="windowNoTitle">true</item>
++    </style>
++
++    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
++
++    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
++
++</resources>
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/res/layout/activity_main.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/res/layout/activity_main.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/res/layout/activity_main.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,26 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    android:orientation="vertical" >
+-
+-    <Button
+-        android:id="@+id/add"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="Add New"
+-        android:onClick="lauchAddActivity"
+-        android:layout_gravity="center_horizontal" />
+-
+-
+-
+-
+-
+-    <ListView
+-        android:id="@android:id/list"
+-        android:focusable="false"
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        />
+-
+-</LinearLayout>
+Index: ../comp6442-assignment1/MyNotebook/.idea/vcs.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/.idea/vcs.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/.idea/vcs.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="VcsDirectoryMappings">
+-    <mapping directory="$PROJECT_DIR$/../.." vcs="Git" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: ../comp6442-assignment1/MyNotebook/gradlew.bat
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/gradlew.bat	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/gradlew.bat	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,90 +0,0 @@
+-@if "%DEBUG%" == "" @echo off
+-@rem ##########################################################################
+-@rem
+-@rem  Gradle startup script for Windows
+-@rem
+-@rem ##########################################################################
+-
+-@rem Set local scope for the variables with windows NT shell
+-if "%OS%"=="Windows_NT" setlocal
+-
+-@rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
+-set DEFAULT_JVM_OPTS=
+-
+-set DIRNAME=%~dp0
+-if "%DIRNAME%" == "" set DIRNAME=.
+-set APP_BASE_NAME=%~n0
+-set APP_HOME=%DIRNAME%
+-
+-@rem Find java.exe
+-if defined JAVA_HOME goto findJavaFromJavaHome
+-
+-set JAVA_EXE=java.exe
+-%JAVA_EXE% -version >NUL 2>&1
+-if "%ERRORLEVEL%" == "0" goto init
+-
+-echo.
+-echo ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
+-echo.
+-echo Please set the JAVA_HOME variable in your environment to match the
+-echo location of your Java installation.
+-
+-goto fail
+-
+-:findJavaFromJavaHome
+-set JAVA_HOME=%JAVA_HOME:"=%
+-set JAVA_EXE=%JAVA_HOME%/bin/java.exe
+-
+-if exist "%JAVA_EXE%" goto init
+-
+-echo.
+-echo ERROR: JAVA_HOME is set to an invalid directory: %JAVA_HOME%
+-echo.
+-echo Please set the JAVA_HOME variable in your environment to match the
+-echo location of your Java installation.
+-
+-goto fail
+-
+-:init
+-@rem Get command-line arguments, handling Windowz variants
+-
+-if not "%OS%" == "Windows_NT" goto win9xME_args
+-if "%@eval[2+2]" == "4" goto 4NT_args
+-
+-:win9xME_args
+-@rem Slurp the command line arguments.
+-set CMD_LINE_ARGS=
+-set _SKIP=2
+-
+-:win9xME_args_slurp
+-if "x%~1" == "x" goto execute
+-
+-set CMD_LINE_ARGS=%*
+-goto execute
+-
+-:4NT_args
+-@rem Get arguments from the 4NT Shell from JP Software
+-set CMD_LINE_ARGS=%$
+-
+-:execute
+-@rem Setup the command line
+-
+-set CLASSPATH=%APP_HOME%\gradle\wrapper\gradle-wrapper.jar
+-
+-@rem Execute Gradle
+-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %GRADLE_OPTS% "-Dorg.gradle.appname=%APP_BASE_NAME%" -classpath "%CLASSPATH%" org.gradle.wrapper.GradleWrapperMain %CMD_LINE_ARGS%
+-
+-:end
+-@rem End local scope for the variables with windows NT shell
+-if "%ERRORLEVEL%"=="0" goto mainEnd
+-
+-:fail
+-rem Set variable GRADLE_EXIT_CONSOLE if you need the _script_ return code instead of
+-rem the _cmd.exe /c_ return code!
+-if  not "" == "%GRADLE_EXIT_CONSOLE%" exit 1
+-exit /b 1
+-
+-:mainEnd
+-if "%OS%"=="Windows_NT" endlocal
+-
+-:omega
+Index: app/src/main/java/com/example/u5818947/mynotebook/MySQL.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/u5818947/mynotebook/MySQL.java	(revision )
++++ app/src/main/java/com/example/u5818947/mynotebook/MySQL.java	(revision )
+@@ -0,0 +1,39 @@
++package com.example.u5818947.mynotebook;
++
++import android.content.Context;
++import android.database.sqlite.SQLiteDatabase;
++import android.database.sqlite.SQLiteOpenHelper;
++
++/**
++ * Created by aprile on 2016/3/21.
++ */
++public class MySQL extends SQLiteOpenHelper {
++    public static final String DATABASE_NAME = "mynote";
++    public static final String TABLE_NAME = "notes";
++    public static final String ID = "id";
++    public static final String CONTENT = "content";
++    public static final String PATH = "path";
++    public static final String VIDEO ="video";
++    public static final String TIME = "time";
++
++    // Database creation sql statement
++    private static final String DATABASE_CREATE = "create table "
++            + TABLE_NAME + "(" + ID
++            + " integer primary key autoincrement, " + CONTENT
++            + " text not null);";
++
++    public MySQL(Context context) {
++        super(context, DATABASE_NAME, null, 1);
++    }
++
++    @Override
++    public void onCreate(SQLiteDatabase db) {
++        db.execSQL(DATABASE_CREATE);
++    }
++
++    @Override
++    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
++        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
++        onCreate(db);
++    }
++}
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/colors.xml	(revision )
++++ app/src/main/res/values/colors.xml	(revision )
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <color name="colorPrimary">#3F51B5</color>
++    <color name="colorPrimaryDark">#303F9F</color>
++    <color name="colorAccent">#FF4081</color>
++</resources>
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/res/layout/activity_add.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/res/layout/activity_add.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/res/layout/activity_add.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,65 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    android:paddingBottom="@dimen/activity_vertical_margin"
+-    android:paddingLeft="@dimen/activity_horizontal_margin"
+-    android:paddingRight="@dimen/activity_horizontal_margin"
+-    android:paddingTop="@dimen/activity_vertical_margin"
+-    tools:context="com.example.aprile.dbtest.AddActivity">
+-
+-    <TextView
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="Please enter your note:"
+-        android:textSize="12pt"
+-        android:id="@+id/note_add_title"
+-        android:layout_alignParentTop="true"
+-        android:layout_centerHorizontal="true" />
+-
+-    <EditText
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:inputType="textMultiLine"
+-        android:ems="10"
+-        android:id="@+id/note_add"
+-        android:textSize="11pt"
+-        android:layout_below="@+id/note_add_title"
+-        android:layout_centerHorizontal="true"
+-        android:layout_marginTop="46dp" />
+-
+-    <Button
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="save"
+-        android:id="@+id/button_edit_save"
+-        android:textSize="12pt"
+-        android:layout_marginTop="59dp"
+-        android:layout_below="@+id/note_add"
+-        android:layout_centerHorizontal="true"
+-        android:onClick="save"/>
+-
+-    <TextView
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="Your note content is below:"
+-        android:id="@+id/note_add_print_title"
+-        android:textSize="9pt"
+-        android:layout_below="@+id/button_edit_save"
+-        android:layout_alignParentLeft="true"
+-        android:layout_alignParentStart="true"
+-        android:layout_marginTop="44dp" />
+-
+-    <TextView
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="New Text"
+-        android:id="@+id/note_add_print"
+-        android:textSize="11pt"
+-        android:layout_below="@+id/note_add_print_title"
+-        android:layout_alignLeft="@+id/note_add"
+-        android:layout_alignStart="@+id/note_add"
+-        android:layout_marginTop="55dp" />
+-
+-</RelativeLayout>
+Index: .idea/encodings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/encodings.xml	(revision )
++++ .idea/encodings.xml	(revision )
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Encoding">
++    <file url="PROJECT" charset="UTF-8" />
++  </component>
++</project>
+\ No newline at end of file
+Index: ../comp6442-assignment1/MyNotebook/app/build.gradle
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/build.gradle	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/build.gradle	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,27 +0,0 @@
+-apply plugin: 'com.android.application'
+-
+-android {
+-    compileSdkVersion 23
+-    buildToolsVersion "23.0.2"
+-
+-    defaultConfig {
+-        applicationId "com.example.u5818947.mynotebook"
+-        minSdkVersion 15
+-        targetSdkVersion 23
+-        versionCode 1
+-        versionName "1.0"
+-    }
+-    buildTypes {
+-        release {
+-            minifyEnabled false
+-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+-        }
+-    }
+-}
+-
+-dependencies {
+-    compile fileTree(dir: 'libs', include: ['*.jar'])
+-    testCompile 'junit:junit:4.12'
+-    compile 'com.android.support:appcompat-v7:23.2.0'
+-    compile 'com.android.support:design:23.2.0'
+-}
+Index: ../comp6442-assignment1/MyNotebook/gradle.properties
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/gradle.properties	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/gradle.properties	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,18 +0,0 @@
+-# Project-wide Gradle settings.
+-
+-# IDE (e.g. Android Studio) users:
+-# Gradle settings configured through the IDE *will override*
+-# any settings specified in this file.
+-
+-# For more details on how to configure your build environment visit
+-# http://www.gradle.org/docs/current/userguide/build_environment.html
+-
+-# Specifies the JVM arguments used for the daemon process.
+-# The setting is particularly useful for tweaking memory settings.
+-# Default value: -Xmx10248m -XX:MaxPermSize=256m
+-# org.gradle.jvmargs=-Xmx2048m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
+-
+-# When configured, Gradle will run in incubating parallel mode.
+-# This option should only be used with decoupled projects. More details, visit
+-# http://www.gradle.org/docs/current/userguide/multi_project_builds.html#sec:decoupled_projects
+-# org.gradle.parallel=true
+\ No newline at end of file
+Index: app/src/main/res/values-w820dp/dimens.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values-w820dp/dimens.xml	(revision )
++++ app/src/main/res/values-w820dp/dimens.xml	(revision )
+@@ -0,0 +1,6 @@
++<resources>
++    <!-- Example customization of dimensions originally defined in res/values/dimens.xml
++         (such as screen margins) for screens with more than 820dp of available width. This
++         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
++    <dimen name="activity_horizontal_margin">64dp</dimen>
++</resources>
+Index: app/src/androidTest/java/com/example/u5818947/mynotebook/ApplicationTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/androidTest/java/com/example/u5818947/mynotebook/ApplicationTest.java	(revision )
++++ app/src/androidTest/java/com/example/u5818947/mynotebook/ApplicationTest.java	(revision )
+@@ -0,0 +1,13 @@
++package com.example.u5818947.mynotebook;
++
++import android.app.Application;
++import android.test.ApplicationTestCase;
++
++/**
++ * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
++ */
++public class ApplicationTest extends ApplicationTestCase<Application> {
++    public ApplicationTest() {
++        super(Application.class);
++    }
++}
+\ No newline at end of file
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/AndroidManifest.xml
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/AndroidManifest.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/AndroidManifest.xml	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,29 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-    package="com.example.u5818947.mynotebook">
+-
+-    <application
+-        android:allowBackup="true"
+-        android:icon="@mipmap/ic_launcher"
+-        android:label="@string/app_name"
+-        android:supportsRtl="true"
+-        android:theme="@style/AppTheme">
+-        <activity
+-            android:name=".MainActivity"
+-            android:label="@string/app_name"
+-            android:theme="@style/AppTheme.NoActionBar">
+-            <intent-filter>
+-                <action android:name="android.intent.action.MAIN" />
+-
+-                <category android:name="android.intent.category.LAUNCHER" />
+-            </intent-filter>
+-        </activity>
+-        <activity
+-            android:name=".EditActivity"
+-            android:parentActivityName=".MainActivity" />
+-        <activity
+-            android:name=".AddActivity"
+-            android:parentActivityName=".MainActivity" />
+-    </application>
+-
+-</manifest>
+Index: ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/MySQL.java
+===================================================================
+--- ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/MySQL.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
++++ ../comp6442-assignment1/MyNotebook/app/src/main/java/com/example/u5818947/mynotebook/MySQL.java	(revision 14250cb7b4fc4c5e5cd85958857e6b229c4c713a)
+@@ -1,39 +0,0 @@
+-package com.example.u5818947.mynotebook;
+-
+-import android.content.Context;
+-import android.database.sqlite.SQLiteDatabase;
+-import android.database.sqlite.SQLiteOpenHelper;
+-
+-/**
+- * Created by aprile on 2016/3/21.
+- */
+-public class MySQL extends SQLiteOpenHelper {
+-    public static final String DATABASE_NAME = "mynote";
+-    public static final String TABLE_NAME = "notes";
+-    public static final String ID = "id";
+-    public static final String CONTENT = "content";
+-    public static final String PATH = "path";
+-    public static final String VIDEO ="video";
+-    public static final String TIME = "time";
+-
+-    // Database creation sql statement
+-    private static final String DATABASE_CREATE = "create table "
+-            + TABLE_NAME + "(" + ID
+-            + " integer primary key autoincrement, " + CONTENT
+-            + " text not null);";
+-
+-    public MySQL(Context context) {
+-        super(context, DATABASE_NAME, null, 1);
+-    }
+-
+-    @Override
+-    public void onCreate(SQLiteDatabase db) {
+-        db.execSQL(DATABASE_CREATE);
+-    }
+-
+-    @Override
+-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+-        onCreate(db);
+-    }
+-}
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision )
++++ app/src/main/AndroidManifest.xml	(revision )
+@@ -0,0 +1,29 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.example.u5818947.mynotebook">
++
++    <application
++        android:allowBackup="true"
++        android:icon="@mipmap/ic_launcher"
++        android:label="@string/app_name"
++        android:supportsRtl="true"
++        android:theme="@style/AppTheme">
++        <activity
++            android:name=".MainActivity"
++            android:label="@string/app_name"
++            android:theme="@style/AppTheme.NoActionBar">
++            <intent-filter>
++                <action android:name="android.intent.action.MAIN" />
++
++                <category android:name="android.intent.category.LAUNCHER" />
++            </intent-filter>
++        </activity>
++        <activity
++            android:name=".EditActivity"
++            android:parentActivityName=".MainActivity" />
++        <activity
++            android:name=".AddActivity"
++            android:parentActivityName=".MainActivity" />
++    </application>
++
++</manifest>
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision )
++++ app/src/main/res/values/strings.xml	(revision )
+@@ -0,0 +1,4 @@
++<resources>
++    <string name="app_name">My Notebook</string>
++    <string name="action_settings">Settings</string>
++</resources>
